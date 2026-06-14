@@ -25,26 +25,9 @@ class FlowControl < Formula
               /const describe_base_commit_ = try (.*);/,
               "const describe_base_commit_ = \\1 catch \"\";"
 
-    # Fix illegal instruction errors when using bottles on older CPUs.
-    # https://github.com/Homebrew/homebrew-core/issues/92282
-    cpu = case ENV.effective_arch
-    when :arm_vortex_tempest then "apple_m1" # See `zig targets`.
-    when :armv8 then "xgene1" # Closest to `-march=armv8-a`
-    else ENV.effective_arch
-    end
-
-    # Do not use `std_zig_args` or `--release=` flag here
-    # as after using it all targets are installed into directories with
-    # names like `<os>-<arch>-release` instead of `bin`
-    args = %W[
-      --prefix #{prefix}
-      -Doptimize=ReleaseFast
-      --summary all
-    ]
-    args << "-Dcpu=#{cpu}" if build.bottle?
-    args << "-fno-rosetta" if OS.mac? && Hardware::CPU.intel?
-
-    system "zig", "build", *args
+    # Remove `--release=` flag as upstream uses it to build multiple
+    # cross-compiled binaries to upload as release assets.
+    system "zig", "build", *std_zig_args.reject { |s| s["--release="] }
   end
 
   test do
