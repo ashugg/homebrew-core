@@ -1,6 +1,6 @@
 class Cdxgen < Formula
   desc "Creates CycloneDX Software Bill-of-Materials (SBOM) for projects"
-  homepage "https://github.com/CycloneDX/cdxgen"
+  homepage "https://cdxgen.github.io/cdxgen/"
   url "https://registry.npmjs.org/@cyclonedx/cdxgen/-/cdxgen-12.6.0.tgz"
   sha256 "de10d9d2a6a23d5d6cdda8fdd0d9e26eef960a79fdb070e4c6357f5edca20c2d"
   license "Apache-2.0"
@@ -26,7 +26,7 @@ class Cdxgen < Formula
   end
 
   def install
-    # https://github.com/CycloneDX/cdxgen/blob/master/lib/managers/binary.js
+    # https://github.com/cdxgen/cdxgen/blob/master/lib/managers/binary.js
     # https://github.com/AppThreat/atom/blob/main/wrapper/nodejs/rbastgen.js
     cdxgen_env = {
       RUBY_CMD:         "${RUBY_CMD:-#{Formula["ruby"].opt_bin}/ruby}",
